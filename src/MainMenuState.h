@@ -20,4 +20,5 @@ protected:
     virtual void onEnterState(eMainMenuState newState) override;
 
 private:
+    OAnimc  m_fadeAnim = Color::Black;
 };

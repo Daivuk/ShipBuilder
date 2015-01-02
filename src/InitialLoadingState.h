@@ -23,5 +23,6 @@ private:
     void startLoading();
 
     OAnimc  m_fadeAnim = Color::Black;
-    OAnimf  m_boxAnim = 45.f;
+    OAnimf  m_boxAnim = 0.f;
+    OAnimc  m_bgFadeAnim = Color::Transparent;
 };
