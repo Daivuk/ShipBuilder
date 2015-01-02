@@ -26,3 +26,13 @@
 *.exe
 *.out
 *.app
+
+# Other VS crap
+*.sdf
+*.opensdf
+*.suo
+
+# Folders
+Debug
+Release
+onut
