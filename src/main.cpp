@@ -1,9 +1,12 @@
 #include <Windows.h>
-#include "onut.h"
+#include "states.h"
 
 int CALLBACK WinMain(HINSTANCE appInstance, HINSTANCE prevInstance, LPSTR cmdLine, int cmdCount)
 {
-    onut::run(nullptr, nullptr, nullptr);
+    OSettings->setResolution({1280, 720});
+    OSettings->setGameName("Ship Builder");
+
+    onut::run(g_stateManager);
 
     return 0;
 }
