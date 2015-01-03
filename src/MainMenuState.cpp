@@ -16,12 +16,14 @@ void MainMenuState::update()
 
 void MainMenuState::render()
 {
+    extern OPal g_pal;
+
     ORenderer->clear(Color::Black);
     OSB->begin();
 
     // Draw star background
     auto pTexBg = OGetTexture("bg.png");
-    OSB->drawSprite(pTexBg, OScreenCenterf, Color::White, 0.f, OScreenHf / pTexBg->getSizef().y);
+    OSB->drawRect(pTexBg, ORectFullScreen.Fit(pTexBg->getSizef()), g_pal[7]);
 
     // Draw fade
     if (m_fadeAnim.isPlaying())
@@ -30,6 +32,8 @@ void MainMenuState::render()
     }
 
     OSB->end();
+
+    onut::drawPal(g_pal);
 }
 
 bool MainMenuState::onLeaveState(eMainMenuState oldState, eMainMenuState newState)

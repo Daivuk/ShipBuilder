@@ -12,8 +12,10 @@ class InitialLoadingState : public onut::State < eInitialLoadingState >
 {
 public:
     InitialLoadingState();
+    virtual ~InitialLoadingState() {}
 
     void init() override;
+    void update() override;
     void render() override;
 
 protected:
@@ -21,8 +23,10 @@ protected:
 
 private:
     void startLoading();
+    void startBoxAnim();
 
     OAnimc  m_fadeAnim = Color::Black;
-    OAnimf  m_boxAnim = 0.f;
+    OAnimf  m_boxAnim = 45.f;
+    OAnimf  m_boxAnim2 = 0.f;
     OAnimc  m_bgFadeAnim = Color::Transparent;
 };
