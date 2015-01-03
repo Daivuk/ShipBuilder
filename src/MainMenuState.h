@@ -20,5 +20,11 @@ protected:
     virtual void onEnterState(eMainMenuState newState) override;
 
 private:
-    OAnimc  m_fadeAnim = Color::Black;
+    OAnimc      m_fadeAnim = Color::Black;
+    OAnimf      m_strokeAnim = 0.f;
+    OAnimf      m_smallStrokeAnim = 0.f;
+    OAnimf      m_btnAnim[3];
+    OAnimc      m_btnShadows[3];
+    OAnimStr    m_btnText[3];
+    OAnimf      m_btnSelection[3];
 };

@@ -29,4 +29,5 @@ private:
     OAnimf  m_boxAnim = 45.f;
     OAnimf  m_boxAnim2 = 0.f;
     OAnimc  m_bgFadeAnim = Color::Transparent;
+    OAnimc  m_fntFadeAnim = Color::Transparent;
 };

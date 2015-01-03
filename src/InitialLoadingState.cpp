@@ -96,6 +96,13 @@ void InitialLoadingState::render()
         OSB->drawRect(pTexBg, ORectFullScreen.Fit(pTexBg->getSizef()), m_bgFadeAnim.get());
     }
 
+    // Loading text
+    if (m_fntFadeAnim.get().A() > 0.f)
+    {
+        OGetBMFont("ethno32.fnt")->draw<OCenter>("Loading", {OScreenCenterXf + 4, OScreenHf * GOLDEN_FIRST + 4}, {g_pal[3].x, g_pal[3].y, g_pal[3].z, m_fntFadeAnim.get().A()});
+        OGetBMFont("ethno32.fnt")->draw<OCenter>("Loading", {OScreenCenterXf, OScreenHf * GOLDEN_FIRST}, m_fntFadeAnim.get());
+    }
+
     // Spinning loading boxes
     const auto fadeT = m_fadeAnim.get().A();
     const auto scale = 1.f / (std::abs(std::sin(DirectX::XMConvertToRadians(m_boxAnim.get()))) + std::abs(std::cos(DirectX::XMConvertToRadians(m_boxAnim.get()))));
@@ -179,7 +186,7 @@ void InitialLoadingState::render()
 
     OSB->end();
 
-    onut::drawPal(g_pal);
+    //onut::drawPal(g_pal);
 }
 
 void InitialLoadingState::onEnterState(eInitialLoadingState newState)
@@ -201,17 +208,30 @@ void InitialLoadingState::startLoading()
 {
     OSequencialWork(
         [this]{
+            // Load font first so user can see the "LOADING" text before everything else
+            OGetBMFont("ethno32.fnt");
+        },
+        [this]{
+            // Fade in text
+            extern OPal g_pal;
+            m_fntFadeAnim.start(g_pal[0], .5f, OEaseOut);
+        },
+
+        [this]{
             // Load our background first. It's a big picture
             OGetTexture("bg.png");
         }, 
         [this]{
             // Background is done loading, fade it in the loading screen.
             extern OPal g_pal;
-            m_bgFadeAnim.start(g_pal[7], 1.f, OEaseOut);
+            m_bgFadeAnim.start(g_pal[7], .5f, OEaseOut);
         }, 
+
         [this]{
             // Load more stuff
-            std::this_thread::sleep_for(std::chrono::seconds(3));
+            OGetBMFont("ethno16.fnt");
+            OGetBMFont("ethno64.fnt");
+        //    std::this_thread::sleep_for(std::chrono::seconds(3));
         }, 
         [this]{
             // Finished loading, fade out
