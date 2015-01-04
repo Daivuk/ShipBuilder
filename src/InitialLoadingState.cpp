@@ -9,6 +9,9 @@ InitialLoadingState::InitialLoadingState() :
 
 void InitialLoadingState::init()
 {
+    // Start loading assets right away
+    startLoading();
+
     // Start our animations
     startBoxAnim();
     m_fadeAnim.start({Color::Transparent, .25f, OLinear, [this]
@@ -191,11 +194,7 @@ void InitialLoadingState::render()
 
 void InitialLoadingState::onEnterState(eInitialLoadingState newState)
 {
-    if (newState == eInitialLoadingState::LOADING)
-    {
-        startLoading();
-    }
-    else if (newState == eInitialLoadingState::FADE_OUT)
+    if (newState == eInitialLoadingState::FADE_OUT)
     {
         m_fadeAnim.start({Color::Black, .25f, OLinear, [this]
         {

@@ -129,22 +129,23 @@ void MainMenuState::render()
     OSB->begin();
 
     // Draw stroke
+    const float STROKE_WIDTH = 100.f;
     auto inclineBase = OScreenWf * GOLDEN_FIRST;
     auto strokeStartPos = incline(inclineBase - 168.f, -OScreenCenterYf);
-    OSB->drawInclinedRect(nullptr, {strokeStartPos, 0, 100, m_strokeAnim.get()}, -inclineRatio, g_pal[5]);
-    OSB->drawInclinedRect(nullptr, {strokeStartPos + 110, 0, 27, m_smallStrokeAnim.get()}, -inclineRatio, g_pal[5]);
+    OSB->drawInclinedRect(nullptr, {strokeStartPos, 0, STROKE_WIDTH, m_strokeAnim.get()}, -inclineRatio, g_pal[5]);
+    OSB->drawInclinedRect(nullptr, {strokeStartPos + 110, 0, STROKE_WIDTH * GOLDEN_FIRST, m_smallStrokeAnim.get()}, -inclineRatio, g_pal[5]);
 
     // Draw buttons and their shadows
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f - 80.f), OScreenCenterYf + 20.f - 80.f, 100, 11}, -inclineRatio, m_btnShadows[0].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f - 80.f) + 110, OScreenCenterYf + 20.f - 80.f, 27, 11}, -inclineRatio, m_btnShadows[0].get());
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f - 80.f), OScreenCenterYf + 20.f - 80.f, STROKE_WIDTH, 11}, -inclineRatio, m_btnShadows[0].get());
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f - 80.f) + 110, OScreenCenterYf + 20.f - 80.f, STROKE_WIDTH * GOLDEN_FIRST, 11}, -inclineRatio, m_btnShadows[0].get());
     OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f - 80.f) - 190.f, OScreenCenterYf - 19.f - 80.f, m_btnAnim[0].get(), 39}, -inclineRatio, g_pal[7]);
 
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f), OScreenCenterYf + 20.f, 100, 11}, -inclineRatio, m_btnShadows[1].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f) + 110, OScreenCenterYf + 20.f, 27, 11}, -inclineRatio, m_btnShadows[1].get());
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f), OScreenCenterYf + 20.f, STROKE_WIDTH, 11}, -inclineRatio, m_btnShadows[1].get());
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f) + 110, OScreenCenterYf + 20.f, STROKE_WIDTH * GOLDEN_FIRST, 11}, -inclineRatio, m_btnShadows[1].get());
     OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f) - 190.f, OScreenCenterYf - 19.f, m_btnAnim[1].get(), 39}, -inclineRatio, g_pal[7]);
 
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f + 80.f), OScreenCenterYf + 20.f + 80.f, 100, 11}, -inclineRatio, m_btnShadows[2].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f + 80.f) + 110, OScreenCenterYf + 20.f + 80.f, 27, 11}, -inclineRatio, m_btnShadows[2].get());
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f + 80.f), OScreenCenterYf + 20.f + 80.f, STROKE_WIDTH, 11}, -inclineRatio, m_btnShadows[2].get());
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f + 80.f) + 110, OScreenCenterYf + 20.f + 80.f, STROKE_WIDTH * GOLDEN_FIRST, 11}, -inclineRatio, m_btnShadows[2].get());
     OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f, OScreenCenterYf - 19.f + 80.f, m_btnAnim[2].get(), 39}, -inclineRatio, g_pal[7]);
 
     // Draw text
