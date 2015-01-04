@@ -83,12 +83,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\CircuitFx.cpp" />
     <ClCompile Include="..\..\src\InitialLoadingState.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\MainMenuState.cpp" />
     <ClCompile Include="..\..\src\states.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\CircuitFx.h" />
     <ClInclude Include="..\..\src\InitialLoadingState.h" />
     <ClInclude Include="..\..\src\MainMenuState.h" />
     <ClInclude Include="..\..\src\states.h" />

@@ -231,7 +231,8 @@ void InitialLoadingState::startLoading()
             // Load more stuff
             OGetBMFont("ethno16.fnt");
             OGetBMFont("ethno64.fnt");
-        //    std::this_thread::sleep_for(std::chrono::seconds(3));
+
+            OGetTexture("dot.png");
         }, 
         [this]{
             // Finished loading, fade out

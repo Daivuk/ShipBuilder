@@ -1,7 +1,8 @@
 #include "MainMenuState.h"
 
 MainMenuState::MainMenuState() :
-    onut::State<eMainMenuState>(eMainMenuState::IDLE)
+    onut::State<eMainMenuState>(eMainMenuState::IDLE),
+    m_circuitFx({OScreenWf * GOLDEN_SECOND, OScreenCenterYf})
 {
 }
 
@@ -75,7 +76,38 @@ float incline(float base, float pos)
 
 void MainMenuState::update()
 {
+    // Update the circuit effect
+    m_circuitFx.update();
+
     // Buttons mouse hover
+    auto lastSelection = m_selection;
+    m_selection = -1;
+
+    auto inclineBase = OScreenWf * GOLDEN_FIRST;
+    Rect btnRects[3];
+    btnRects[0] = {incline(inclineBase, -19.f - 80.f) - 190.f, OScreenCenterYf - 19.f - 80.f, m_btnAnim[0].get(), 39};
+    btnRects[1] = {incline(inclineBase, -19.f) - 190.f, OScreenCenterYf - 19.f, m_btnAnim[1].get(), 39};
+    btnRects[2] = {incline(inclineBase, -19.f + 80.f) - 190.f, OScreenCenterYf - 19.f + 80.f, m_btnAnim[2].get(), 39};
+
+    for (int i = 0; i < 3; ++i)
+    {
+        if (btnRects[i].Contains(OMousePos))
+        {
+            m_selection = i;
+        }
+    }
+
+    if (lastSelection != m_selection)
+    {
+        if (lastSelection != -1)
+        {
+            m_btnSelection[lastSelection].start(0.f, .15f, OEaseOut);
+        }
+        if (m_selection != -1)
+        {
+            m_btnSelection[m_selection].start(1.f, .05f, OEaseOut);
+        }
+    }
 }
 
 void MainMenuState::render()
@@ -88,6 +120,13 @@ void MainMenuState::render()
     // Draw star background
     auto pTexBg = OGetTexture("bg.png");
     OSB->drawRect(pTexBg, ORectFullScreen.Fit(pTexBg->getSizef()), g_pal[7]);
+
+    OSB->end();
+
+    // Circuits
+    m_circuitFx.render();
+
+    OSB->begin();
 
     // Draw stroke
     auto inclineBase = OScreenWf * GOLDEN_FIRST;
@@ -109,16 +148,24 @@ void MainMenuState::render()
     OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f, OScreenCenterYf - 19.f + 80.f, m_btnAnim[2].get(), 39}, -inclineRatio, g_pal[7]);
 
     // Draw text
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[0].get(), {incline(inclineBase, -80.f) + 4.f, OScreenCenterYf - 80.f + 4.f}, g_pal[3]);
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[0].get(), {incline(inclineBase, -80.f), OScreenCenterYf - 80.f}, g_pal[0]);
+    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[0].get(), {incline(inclineBase, -80.f) + 4.f - m_btnSelection[0].get() * 16.f, OScreenCenterYf - 80.f + 4.f}, g_pal[3]);
+    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[0].get(), {incline(inclineBase, -80.f) - m_btnSelection[0].get() * 16.f, OScreenCenterYf - 80.f}, g_pal[0]);
 
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[1].get(), {incline(inclineBase, 0.f) + 4.f, OScreenCenterYf + 4.f}, g_pal[3]);
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[1].get(), {incline(inclineBase, 0.f), OScreenCenterYf}, g_pal[0]);
+    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[1].get(), {incline(inclineBase, 0.f) + 4.f - m_btnSelection[1].get() * 16.f, OScreenCenterYf + 4.f}, g_pal[3]);
+    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[1].get(), {incline(inclineBase, 0.f) - m_btnSelection[1].get() * 16.f, OScreenCenterYf}, g_pal[0]);
 
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[2].get(), {incline(inclineBase, 80.f) + 4.f, OScreenCenterYf + 80.f + 4.f}, g_pal[3]);
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[2].get(), {incline(inclineBase, 80.f), OScreenCenterYf + 80.f}, g_pal[0]);
+    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[2].get(), {incline(inclineBase, 80.f) + 4.f - m_btnSelection[2].get() * 16.f, OScreenCenterYf + 80.f + 4.f}, g_pal[3]);
+    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[2].get(), {incline(inclineBase, 80.f) - m_btnSelection[2].get() * 16.f, OScreenCenterYf + 80.f}, g_pal[0]);
 
     // Draw selected buttons
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f - 80.f) - 190.f - 22.f + 17.f - m_btnSelection[0].get() * 17.f, OScreenCenterYf - 19.f - 80.f, m_btnSelection[0].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f - 80.f) - 190.f + 214.f, OScreenCenterYf - 19.f - 80.f, m_btnSelection[0].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
+
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f) - 190.f - 22.f + 17.f - m_btnSelection[1].get()* 17.f, OScreenCenterYf - 19.f, m_btnSelection[1].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f) - 190.f + 214.f, OScreenCenterYf - 19.f, m_btnSelection[1].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
+
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f - 22.f + 17.f - m_btnSelection[2].get()* 17.f, OScreenCenterYf - 19.f + 80.f, m_btnSelection[2].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
+    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f + 214.f, OScreenCenterYf - 19.f + 80.f, m_btnSelection[2].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
 
     // Draw fade
     if (m_fadeAnim.isPlaying())
@@ -128,7 +175,7 @@ void MainMenuState::render()
 
     OSB->end();
 
-    onut::drawPal(g_pal, OGetBMFont("ethno16.fnt"));
+    //    onut::drawPal(g_pal, OGetBMFont("ethno16.fnt"));
 }
 
 bool MainMenuState::onLeaveState(eMainMenuState oldState, eMainMenuState newState)

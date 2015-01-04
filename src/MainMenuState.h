@@ -1,5 +1,5 @@
 #pragma once
-#include "onut.h"
+#include "CircuitFx.h"
 
 enum class eMainMenuState
 {
@@ -27,4 +27,6 @@ private:
     OAnimc      m_btnShadows[3];
     OAnimStr    m_btnText[3];
     OAnimf      m_btnSelection[3];
+    CircuitFx   m_circuitFx;
+    int         m_selection = -1;
 };
