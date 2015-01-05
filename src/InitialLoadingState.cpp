@@ -228,13 +228,29 @@ void InitialLoadingState::startLoading()
 
         [this]{
             // Load more stuff
-            OGetBMFont("ethno16.fnt");
-            OGetBMFont("ethno64.fnt");
-
-            OGetTexture("dot.png");
+            loadAllAssets();
         }, 
         [this]{
             // Finished loading, fade out
             changeState(eInitialLoadingState::FADE_OUT);
         });
+}
+
+void InitialLoadingState::loadAllAssets()
+{
+    // Fonts
+    OGetBMFont("ethno16.fnt");
+    OGetBMFont("ethno18.fnt");
+    OGetBMFont("ethno20.fnt");
+    OGetBMFont("ethno32.fnt");
+    OGetBMFont("ethno24.fnt");
+    OGetBMFont("ethno64.fnt");
+
+    // Textures
+    OGetTexture("bg.png");
+    OGetTexture("dot.png");
+
+    // Sounds
+
+    // Particles
 }

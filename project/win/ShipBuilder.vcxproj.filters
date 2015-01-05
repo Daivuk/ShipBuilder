@@ -11,11 +11,19 @@
     <ClCompile Include="..\..\src\MainMenuState.cpp">
       <Filter>states</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\CircuitFx.cpp" />
+    <ClCompile Include="..\..\src\CircuitFx.cpp">
+      <Filter>states\menuComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Button.cpp">
+      <Filter>states\menuComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="states">
       <UniqueIdentifier>{c096527f-8580-41ce-998f-96a1eaef6981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="states\menuComponents">
+      <UniqueIdentifier>{0a9bbdaa-60ee-40e9-9398-a12e393628a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +36,11 @@
     <ClInclude Include="..\..\src\MainMenuState.h">
       <Filter>states</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\CircuitFx.h" />
+    <ClInclude Include="..\..\src\CircuitFx.h">
+      <Filter>states\menuComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Button.h">
+      <Filter>states\menuComponents</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

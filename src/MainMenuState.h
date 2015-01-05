@@ -1,4 +1,5 @@
 #pragma once
+#include "Button.h"
 #include "CircuitFx.h"
 
 enum class eMainMenuState
@@ -23,10 +24,6 @@ private:
     OAnimc      m_fadeAnim = Color::Black;
     OAnimf      m_strokeAnim = 0.f;
     OAnimf      m_smallStrokeAnim = 0.f;
-    OAnimf      m_btnAnim[3];
-    OAnimc      m_btnShadows[3];
-    OAnimStr    m_btnText[3];
-    OAnimf      m_btnSelection[3];
     CircuitFx   m_circuitFx;
-    int         m_selection = -1;
+    Button      m_buttons[5];
 };

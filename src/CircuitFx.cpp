@@ -1,9 +1,9 @@
 #include "CircuitFx.h"
 
-const float INCLINED_RATIO = 64.f / 80.f;
+const float INCLINED_RATIO = GOLDEN_SECOND;
 const float GRID_SIZE = 32.f;
-const float GRID_SIZE_X = GRID_SIZE;
-const float GRID_SIZE_Y = GRID_SIZE * INCLINED_RATIO;
+const float GRID_SIZE_X = GRID_SIZE * INCLINED_RATIO * 2.f;
+const float GRID_SIZE_Y = GRID_SIZE;
 const float TRAIL_SPEED = 50.f;
 
 extern OPal g_pal;

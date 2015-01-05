@@ -24,6 +24,7 @@ protected:
 private:
     void startLoading();
     void startBoxAnim();
+    void loadAllAssets();
 
     OAnimc  m_fadeAnim = Color::Black;
     OAnimf  m_boxAnim = 45.f;

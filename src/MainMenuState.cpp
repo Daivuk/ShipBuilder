@@ -6,6 +6,12 @@ MainMenuState::MainMenuState() :
 {
 }
 
+const float INCLINE_RATIO = GOLDEN_SECOND;
+float incline(float base, float pos)
+{
+    return base - pos * INCLINE_RATIO;
+}
+
 void MainMenuState::init()
 {
     extern OPal g_pal;
@@ -20,58 +26,28 @@ void MainMenuState::init()
         {OScreenHf, .6f, OEaseOut},
     });
 
+
     // Buttons
-    m_btnAnim[0].start(0.f, {
-        OAnimWait(0.f, .45f),
-        {209.f, .35f, OEaseOut},
-    });
-    m_btnAnim[1].start(0.f, {
-        OAnimWait(0.f, .65f),
-        {209.f, .35f, OEaseOut},
-    });
-    m_btnAnim[2].start(0.f, {
-        OAnimWait(0.f, .85f),
-        {209.f, .35f, OEaseOut},
-    });
+    m_buttons[0].setText("Campain");
+    m_buttons[1].setText("Online");
+    m_buttons[2].setText("Build");
+    m_buttons[3].setText("Options");
+    m_buttons[4].setText("Exit");
 
-    // Button shadows
-    m_btnShadows[0].start(Color::Transparent, {
-        OAnimWait(Color::Transparent, .45f),
-        {g_pal[4], .35f, OEaseOut},
-    });
-    m_btnShadows[1].start(Color::Transparent, {
-        OAnimWait(Color::Transparent, .65f),
-        {g_pal[4], .35f, OEaseOut},
-    });
-    m_btnShadows[2].start(Color::Transparent, {
-        OAnimWait(Color::Transparent, .85f),
-        {g_pal[4], .35f, OEaseOut},
-    });
+    const float BUTTON_H = m_buttons[0].getSize().y;
+    const float BUTTON_SPACING = BUTTON_H * GOLDEN_RATIO;
+    auto yBase = OScreenCenterYf;
+    auto buttonOffsetY = (OScreenHf * GOLDEN_FIRST - 5.f * GOLDEN_FIRST * (BUTTON_SPACING + BUTTON_H)) - yBase;
+    auto inclineBase = OScreenWf * GOLDEN_FIRST - 168.f - BUTTON_SPACING * GOLDEN_FIRST;
+    auto showDelay = .45f;
+    for (auto& button : m_buttons)
+    {
+        button.setPosition({incline(inclineBase, buttonOffsetY), yBase + buttonOffsetY});
+        button.show(showDelay);
 
-    // Button texts
-    m_btnText[0].start("", {
-        OAnimWait("", .8f),
-        {"Play", .35f, OEaseOut},
-    });
-    m_btnText[1].start("", {
-        OAnimWait("", 1.f),
-        {"Build", .35f, OEaseOut},
-    });
-    m_btnText[2].start("", {
-        OAnimWait("", 1.2f),
-        {"Quit", .35f, OEaseOut},
-    });
-
-    // No button selected by default
-    m_btnSelection[0] = 0.f;
-    m_btnSelection[1] = 0.f;
-    m_btnSelection[2] = 0.f;
-}
-
-const float inclineRatio = 64.f / 80.f;
-float incline(float base, float pos)
-{
-    return base - pos * inclineRatio;
+        buttonOffsetY += BUTTON_SPACING + button.getSize().y;
+        showDelay += .2f;
+    }
 }
 
 void MainMenuState::update()
@@ -79,34 +55,10 @@ void MainMenuState::update()
     // Update the circuit effect
     m_circuitFx.update();
 
-    // Buttons mouse hover
-    auto lastSelection = m_selection;
-    m_selection = -1;
-
-    auto inclineBase = OScreenWf * GOLDEN_FIRST;
-    Rect btnRects[3];
-    btnRects[0] = {incline(inclineBase, -19.f - 80.f) - 190.f, OScreenCenterYf - 19.f - 80.f, m_btnAnim[0].get(), 39};
-    btnRects[1] = {incline(inclineBase, -19.f) - 190.f, OScreenCenterYf - 19.f, m_btnAnim[1].get(), 39};
-    btnRects[2] = {incline(inclineBase, -19.f + 80.f) - 190.f, OScreenCenterYf - 19.f + 80.f, m_btnAnim[2].get(), 39};
-
-    for (int i = 0; i < 3; ++i)
+    // Buttons
+    for (auto& button : m_buttons)
     {
-        if (btnRects[i].Contains(OMousePos))
-        {
-            m_selection = i;
-        }
-    }
-
-    if (lastSelection != m_selection)
-    {
-        if (lastSelection != -1)
-        {
-            m_btnSelection[lastSelection].start(0.f, .15f, OEaseOut);
-        }
-        if (m_selection != -1)
-        {
-            m_btnSelection[m_selection].start(1.f, .05f, OEaseOut);
-        }
+        button.update();
     }
 }
 
@@ -132,9 +84,15 @@ void MainMenuState::render()
     const float STROKE_WIDTH = 100.f;
     auto inclineBase = OScreenWf * GOLDEN_FIRST;
     auto strokeStartPos = incline(inclineBase - 168.f, -OScreenCenterYf);
-    OSB->drawInclinedRect(nullptr, {strokeStartPos, 0, STROKE_WIDTH, m_strokeAnim.get()}, -inclineRatio, g_pal[5]);
-    OSB->drawInclinedRect(nullptr, {strokeStartPos + 110, 0, STROKE_WIDTH * GOLDEN_FIRST, m_smallStrokeAnim.get()}, -inclineRatio, g_pal[5]);
+    OSB->drawInclinedRect(nullptr, {strokeStartPos, 0, STROKE_WIDTH, m_strokeAnim.get()}, -INCLINE_RATIO, g_pal[5]);
+    OSB->drawInclinedRect(nullptr, {strokeStartPos + 100 + STROKE_WIDTH * GOLDEN_FIRST * GOLDEN_FIRST, 0, STROKE_WIDTH * GOLDEN_FIRST, m_smallStrokeAnim.get()}, -INCLINE_RATIO, g_pal[4]);
 
+    // Draw buttons
+    for (auto& button : m_buttons)
+    {
+        button.render();
+    }
+    /*
     // Draw buttons and their shadows
     OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f - 80.f), OScreenCenterYf + 20.f - 80.f, STROKE_WIDTH, 11}, -inclineRatio, m_btnShadows[0].get());
     OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f - 80.f) + 110, OScreenCenterYf + 20.f - 80.f, STROKE_WIDTH * GOLDEN_FIRST, 11}, -inclineRatio, m_btnShadows[0].get());
@@ -167,7 +125,7 @@ void MainMenuState::render()
 
     OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f - 22.f + 17.f - m_btnSelection[2].get()* 17.f, OScreenCenterYf - 19.f + 80.f, m_btnSelection[2].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
     OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f + 214.f, OScreenCenterYf - 19.f + 80.f, m_btnSelection[2].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
-
+    */
     // Draw fade
     if (m_fadeAnim.isPlaying())
     {
