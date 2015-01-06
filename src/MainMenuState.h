@@ -4,7 +4,8 @@
 
 enum class eMainMenuState
 {
-    IDLE
+    IDLE,
+    FADE_OUT
 };
 
 class MainMenuState : public onut::State < eMainMenuState >
@@ -21,9 +22,12 @@ protected:
     virtual void onEnterState(eMainMenuState newState) override;
 
 private:
+    void startFadeOut(int buttonId);
+
     OAnimc      m_fadeAnim = Color::Black;
     OAnimf      m_strokeAnim = 0.f;
     OAnimf      m_smallStrokeAnim = 0.f;
     CircuitFx   m_circuitFx;
     Button      m_buttons[5];
+    int         m_selection = 4;
 };

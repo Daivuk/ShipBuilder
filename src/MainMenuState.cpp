@@ -14,18 +14,15 @@ float incline(float base, float pos)
 
 void MainMenuState::init()
 {
-    extern OPal g_pal;
-
     // Start fade in anims
     m_fadeAnim.start(Color::Transparent, .25f);
 
     // Strokes
-    m_strokeAnim.start(OScreenHf, .5f, OEaseOut);
+    m_strokeAnim.start(OScreenHf, .4f, OEaseOut);
     m_smallStrokeAnim.start({
         OAnimWait(0.f, .25f),
-        {OScreenHf, .6f, OEaseOut},
+        {OScreenHf, .5f, OEaseOut},
     });
-
 
     // Buttons
     m_buttons[0].setText("Campain");
@@ -40,13 +37,19 @@ void MainMenuState::init()
     auto buttonOffsetY = (OScreenHf * GOLDEN_FIRST - 5.f * GOLDEN_FIRST * (BUTTON_SPACING + BUTTON_H)) - yBase;
     auto inclineBase = OScreenWf * GOLDEN_FIRST - 168.f - BUTTON_SPACING * GOLDEN_FIRST;
     auto showDelay = .45f;
+    decltype(m_selection) i = 0;
     for (auto& button : m_buttons)
     {
         button.setPosition({incline(inclineBase, buttonOffsetY), yBase + buttonOffsetY});
         button.show(showDelay);
+        button.setCallback([this, i]{
+            m_selection = i;
+            changeState(eMainMenuState::FADE_OUT);
+        });
 
         buttonOffsetY += BUTTON_SPACING + button.getSize().y;
-        showDelay += .2f;
+        showDelay += .15f;
+        ++i;
     }
 }
 
@@ -58,7 +61,10 @@ void MainMenuState::update()
     // Buttons
     for (auto& button : m_buttons)
     {
-        button.update();
+        if (button.update())
+        {
+            break;
+        }
     }
 }
 
@@ -92,42 +98,9 @@ void MainMenuState::render()
     {
         button.render();
     }
-    /*
-    // Draw buttons and their shadows
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f - 80.f), OScreenCenterYf + 20.f - 80.f, STROKE_WIDTH, 11}, -inclineRatio, m_btnShadows[0].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f - 80.f) + 110, OScreenCenterYf + 20.f - 80.f, STROKE_WIDTH * GOLDEN_FIRST, 11}, -inclineRatio, m_btnShadows[0].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f - 80.f) - 190.f, OScreenCenterYf - 19.f - 80.f, m_btnAnim[0].get(), 39}, -inclineRatio, g_pal[7]);
 
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f), OScreenCenterYf + 20.f, STROKE_WIDTH, 11}, -inclineRatio, m_btnShadows[1].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f) + 110, OScreenCenterYf + 20.f, STROKE_WIDTH * GOLDEN_FIRST, 11}, -inclineRatio, m_btnShadows[1].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f) - 190.f, OScreenCenterYf - 19.f, m_btnAnim[1].get(), 39}, -inclineRatio, g_pal[7]);
-
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f + 80.f), OScreenCenterYf + 20.f + 80.f, STROKE_WIDTH, 11}, -inclineRatio, m_btnShadows[2].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase - 168.f, 20.f + 80.f) + 110, OScreenCenterYf + 20.f + 80.f, STROKE_WIDTH * GOLDEN_FIRST, 11}, -inclineRatio, m_btnShadows[2].get());
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f, OScreenCenterYf - 19.f + 80.f, m_btnAnim[2].get(), 39}, -inclineRatio, g_pal[7]);
-
-    // Draw text
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[0].get(), {incline(inclineBase, -80.f) + 4.f - m_btnSelection[0].get() * 16.f, OScreenCenterYf - 80.f + 4.f}, g_pal[3]);
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[0].get(), {incline(inclineBase, -80.f) - m_btnSelection[0].get() * 16.f, OScreenCenterYf - 80.f}, g_pal[0]);
-
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[1].get(), {incline(inclineBase, 0.f) + 4.f - m_btnSelection[1].get() * 16.f, OScreenCenterYf + 4.f}, g_pal[3]);
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[1].get(), {incline(inclineBase, 0.f) - m_btnSelection[1].get() * 16.f, OScreenCenterYf}, g_pal[0]);
-
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[2].get(), {incline(inclineBase, 80.f) + 4.f - m_btnSelection[2].get() * 16.f, OScreenCenterYf + 80.f + 4.f}, g_pal[3]);
-    OGetBMFont("ethno32.fnt")->draw<ORight>(m_btnText[2].get(), {incline(inclineBase, 80.f) - m_btnSelection[2].get() * 16.f, OScreenCenterYf + 80.f}, g_pal[0]);
-
-    // Draw selected buttons
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f - 80.f) - 190.f - 22.f + 17.f - m_btnSelection[0].get() * 17.f, OScreenCenterYf - 19.f - 80.f, m_btnSelection[0].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f - 80.f) - 190.f + 214.f, OScreenCenterYf - 19.f - 80.f, m_btnSelection[0].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
-
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f) - 190.f - 22.f + 17.f - m_btnSelection[1].get()* 17.f, OScreenCenterYf - 19.f, m_btnSelection[1].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f) - 190.f + 214.f, OScreenCenterYf - 19.f, m_btnSelection[1].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
-
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f - 22.f + 17.f - m_btnSelection[2].get()* 17.f, OScreenCenterYf - 19.f + 80.f, m_btnSelection[2].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
-    OSB->drawInclinedRect(nullptr, {incline(inclineBase, -19.f + 80.f) - 190.f + 214.f, OScreenCenterYf - 19.f + 80.f, m_btnSelection[2].get()* 17.f, 39}, -inclineRatio, g_pal[2]);
-    */
     // Draw fade
-    if (m_fadeAnim.isPlaying())
+    if (m_fadeAnim.get().A() > 0.f)
     {
         OSB->drawRect(nullptr, ORectFullScreen, m_fadeAnim.get());
     }
@@ -144,4 +117,33 @@ bool MainMenuState::onLeaveState(eMainMenuState oldState, eMainMenuState newStat
 
 void MainMenuState::onEnterState(eMainMenuState newState)
 {
+    if (newState == eMainMenuState::FADE_OUT)
+    {
+        // Start the hide animation on buttons
+        for (auto& button : m_buttons)
+        {
+            button.hide();
+        }
+        m_strokeAnim.start(0.f, .20f, OEaseIn);
+        m_smallStrokeAnim.start({
+            OAnimWait(m_smallStrokeAnim.get(), .05f),
+            {0.f, .25f, OEaseIn},
+        });
+        m_fadeAnim.start({Color::Black, .25f, OLinear, [this]{
+            switch (m_selection)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    PostQuitMessage(0);
+                    break;
+            }
+        }});
+    }
 }

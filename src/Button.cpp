@@ -23,9 +23,11 @@ void Button::show(float delay)
 
 void Button::hide(float delay)
 {
+    m_widthAnim.start(0.f, .25f);
+    m_textAnim.start("", .25f);
 }
 
-void Button::update()
+bool Button::update()
 {
     // Build the rect from our current position, size and animation
     m_rect = {m_position.x, m_position.y, m_size.x * m_widthAnim.get(), m_size.y};
@@ -42,6 +44,17 @@ void Button::update()
         m_selectionAnim.start(1.f, .05f, OEaseOut);
         m_isSelected = true;
     }
+
+    if (mouseHover && OInput->isStateJustDown(DIK_MOUSEB1))
+    {
+        if (m_callback)
+        {
+            m_callback();
+        }
+        return true;
+    }
+
+    return false;
 }
 
 void Button::render()
@@ -79,4 +92,9 @@ void Button::setPosition(const Vector2& position)
 void Button::setText(const std::string& text)
 {
     m_text = text;
+}
+
+void Button::setCallback(const std::function<void()>& callback)
+{
+    m_callback = callback;
 }
