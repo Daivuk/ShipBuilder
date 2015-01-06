@@ -5,7 +5,8 @@ enum class eGlobalState
 {
     INITIAL_LOADING,
     MAIN_MENU,
-    SHIP_BUILDER
+    SHIP_BUILDER,
+    PLAY
 };
 
 extern onut::StateManager<eGlobalState> g_stateManager;

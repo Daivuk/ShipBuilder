@@ -1,4 +1,5 @@
 #include "MainMenuState.h"
+#include "states.h"
 
 MainMenuState::MainMenuState() :
     onut::State<eMainMenuState>(eMainMenuState::IDLE),
@@ -17,6 +18,12 @@ void MainMenuState::init()
     // Start fade in anims
     m_fadeAnim.start(Color::Transparent, .25f);
 
+    // Title
+    m_titleAnim.start(1.f, {
+        OAnimWait(1.f, .5f),
+        {0.f, .5f, OEaseOut}
+    });
+
     // Strokes
     m_strokeAnim.start(OScreenHf, .4f, OEaseOut);
     m_smallStrokeAnim.start({
@@ -25,7 +32,7 @@ void MainMenuState::init()
     });
 
     // Buttons
-    m_buttons[0].setText("Campain");
+    m_buttons[0].setText("Solo");
     m_buttons[1].setText("Online");
     m_buttons[2].setText("Build");
     m_buttons[3].setText("Options");
@@ -86,6 +93,14 @@ void MainMenuState::render()
 
     OSB->begin();
 
+    // Logo
+    OGetBMFont("ethno64.fnt")->draw<OBottomRight>("Ship Builder", ORectFullScreen.BottomRight(64.f * GOLDEN_SECOND) + 
+                                                  Vector2{m_titleAnim.get() * 100.f + 4.f, 4.f},
+                                                  onut::lerp(g_pal[3], Color::Transparent, m_titleAnim.get()));
+    OGetBMFont("ethno64.fnt")->draw<OBottomRight>("Ship Builder", ORectFullScreen.BottomRight(64.f * GOLDEN_SECOND) +
+                                                  Vector2{m_titleAnim.get() * 100.f + 0.f, 0.f},
+                                                  onut::lerp(g_pal[0], Color::Transparent, m_titleAnim.get()));
+
     // Draw stroke
     const float STROKE_WIDTH = 100.f;
     auto inclineBase = OScreenWf * GOLDEN_FIRST;
@@ -129,10 +144,12 @@ void MainMenuState::onEnterState(eMainMenuState newState)
             OAnimWait(m_smallStrokeAnim.get(), .05f),
             {0.f, .25f, OEaseIn},
         });
+        m_titleAnim.start(1.f, .15f, OEaseIn);
         m_fadeAnim.start({Color::Black, .25f, OLinear, [this]{
             switch (m_selection)
             {
                 case 0:
+                    g_stateManager.changeState(eGlobalState::PLAY);
                     break;
                 case 1:
                     break;

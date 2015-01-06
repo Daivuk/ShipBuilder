@@ -17,6 +17,12 @@
     <ClCompile Include="..\..\src\Button.cpp">
       <Filter>states\menuComponents</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\PlayState.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Ship.cpp">
+      <Filter>entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="states">
@@ -24,6 +30,9 @@
     </Filter>
     <Filter Include="states\menuComponents">
       <UniqueIdentifier>{0a9bbdaa-60ee-40e9-9398-a12e393628a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="entities">
+      <UniqueIdentifier>{2759f578-24c2-4385-9d00-c72a12156eaa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +50,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Button.h">
       <Filter>states\menuComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\PlayState.h">
+      <Filter>states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Ship.h">
+      <Filter>entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

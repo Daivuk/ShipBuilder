@@ -13,18 +13,18 @@ void Button::show(float delay)
 {
     m_widthAnim.start(0.f, {
         OAnimWait(0.f, delay),
-        {1.f, .35f, OEaseOut},
+        {1.f, .25f, OEaseOut},
     });
     m_textAnim.start("", {
-        OAnimWait("", delay + .35f),
-        {m_text, .35f, OEaseOut},
+        OAnimWait("", delay + .25f),
+        {m_text, .20f, OEaseOut},
     });
 }
 
 void Button::hide(float delay)
 {
     m_widthAnim.start(0.f, .25f);
-    m_textAnim.start("", .25f);
+    m_textAnim.start("", .15f);
 }
 
 bool Button::update()

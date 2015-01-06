@@ -27,6 +27,7 @@ private:
     OAnimc      m_fadeAnim = Color::Black;
     OAnimf      m_strokeAnim = 0.f;
     OAnimf      m_smallStrokeAnim = 0.f;
+    OAnimf      m_titleAnim = 1.f;
     CircuitFx   m_circuitFx;
     Button      m_buttons[5];
     int         m_selection = 4;
