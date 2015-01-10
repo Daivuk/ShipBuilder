@@ -83,6 +83,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\BuildState.cpp" />
     <ClCompile Include="..\..\src\Button.cpp" />
     <ClCompile Include="..\..\src\CircuitFx.cpp" />
     <ClCompile Include="..\..\src\InitialLoadingState.cpp" />
@@ -93,6 +94,7 @@
     <ClCompile Include="..\..\src\states.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\BuildState.h" />
     <ClInclude Include="..\..\src\Button.h" />
     <ClInclude Include="..\..\src\CircuitFx.h" />
     <ClInclude Include="..\..\src\InitialLoadingState.h" />

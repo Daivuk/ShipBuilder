@@ -154,6 +154,7 @@ void MainMenuState::onEnterState(eMainMenuState newState)
                 case 1:
                     break;
                 case 2:
+                    g_stateManager.changeState(eGlobalState::SHIP_BUILDER);
                     break;
                 case 3:
                     break;

@@ -239,7 +239,7 @@ void InitialLoadingState::startLoading()
 void InitialLoadingState::loadAllAssets()
 {
     // Fonts
-    //OGetBMFont("ethno16.fnt");
+    OGetBMFont("ethno16.fnt");
     //OGetBMFont("ethno18.fnt");
     OGetBMFont("ethno20.fnt");
     OGetBMFont("ethno32.fnt");

@@ -23,6 +23,9 @@
     <ClCompile Include="..\..\src\Ship.cpp">
       <Filter>entities</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\BuildState.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="states">
@@ -56,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Ship.h">
       <Filter>entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BuildState.h">
+      <Filter>states</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
