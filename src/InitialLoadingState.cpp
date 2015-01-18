@@ -14,7 +14,7 @@ void InitialLoadingState::init()
 
     // Start our animations
     startBoxAnim();
-    m_fadeAnim.start({Color::Transparent, .25f, OLinear, [this]
+    m_fadeAnim.start({Color::Transparent, .15f, OLinear, [this]
     {
         changeState(eInitialLoadingState::LOADING);
     }});
@@ -196,7 +196,7 @@ void InitialLoadingState::onEnterState(eInitialLoadingState newState)
 {
     if (newState == eInitialLoadingState::FADE_OUT)
     {
-        m_fadeAnim.start({Color::Black, .25f, OLinear, [this]
+        m_fadeAnim.start({Color::Black, .15f, OLinear, [this]
         {
             g_stateManager.changeState(eGlobalState::MAIN_MENU);
         }});
@@ -213,7 +213,7 @@ void InitialLoadingState::startLoading()
         [this]{
             // Fade in text
             extern OPal g_pal;
-            m_fntFadeAnim.start(g_pal[0], .5f, OEaseOut);
+            m_fntFadeAnim.start(g_pal[0], .25f, OEaseOut);
         },
 
         [this]{
@@ -223,7 +223,7 @@ void InitialLoadingState::startLoading()
         [this]{
             // Background is done loading, fade it in the loading screen.
             extern OPal g_pal;
-            m_bgFadeAnim.start(g_pal[7], .5f, OEaseOut);
+            m_bgFadeAnim.start(g_pal[7], .25f, OEaseOut);
         }, 
 
         [this]{
@@ -238,19 +238,19 @@ void InitialLoadingState::startLoading()
 
 void InitialLoadingState::loadAllAssets()
 {
-    // Fonts
-    OGetBMFont("ethno16.fnt");
-    //OGetBMFont("ethno18.fnt");
-    OGetBMFont("ethno20.fnt");
-    OGetBMFont("ethno32.fnt");
-    //OGetBMFont("ethno24.fnt");
-    OGetBMFont("ethno64.fnt");
+    ORunTasks({
+        // Fonts
+        []{OGetBMFont("ethno16.fnt"); },
+        []{OGetBMFont("ethno18.fnt"); },
+        []{OGetBMFont("ethno20.fnt"); },
+        []{OGetBMFont("ethno24.fnt"); },
+        []{OGetBMFont("ethno64.fnt"); },
 
-    // Textures
-    OGetTexture("bg.png");
-    OGetTexture("dot.png");
+        // Textures
+        []{OGetTexture("dot.png"); },
 
-    // Sounds
+        // Sounds
 
-    // Particles
+        // Particles
+    });
 }

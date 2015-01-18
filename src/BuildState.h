@@ -23,9 +23,9 @@ protected:
 private:
     void drawGrid();
 
-    OAnimc  m_fadeAnim = Color::Black;
-    Vector2 m_camPos;
-    Matrix  m_viewProj;
-    float   m_zoomf = 16.f;
-    int     m_zoomLevel = 16;
+    OAnimc          m_fadeAnim = Color::Black;
+    Vector2         m_camPos;
+    Matrix          m_viewProj;
+    float           m_zoomf = 16.f;
+    int             m_zoomLevel = 16;
 };

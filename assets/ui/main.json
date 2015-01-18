@@ -1,0 +1,63 @@
+{
+    "widthType": "RELATIVE",
+    "heightType": "RELATIVE",
+    "children": [
+        {
+            "type": "UIButton",
+            "style": "AngledButton",
+            "name": "btn1",
+            "x": 200,
+            "y": 100,
+            "width": 200,
+            "height": 32,
+            "align": "CENTER",
+            "caption": "Button 1",
+            "visible": false
+        },
+        {
+            "type": "UIButton",
+            "style": "RedButton",
+            "name": "btn2",
+            "x": 200,
+            "y": 200,
+            "width": 200,
+            "height": 32,
+            "align": "CENTER",
+            "caption": "Button 2"
+        },
+        {
+            "type": "UIButton",
+            "style": "AngledButton",
+            "name": "btn3",
+            "x": 200,
+            "y": 300,
+            "width": 200,
+            "height": 32,
+            "align": "CENTER",
+            "caption": "Button 3",
+            "enabled": false
+        },
+        {
+            "type": "UIButton",
+            "style": "AngledButton",
+            "name": "btn4",
+            "x": 200,
+            "y": 400,
+            "width": 200,
+            "height": 32,
+            "align": "CENTER",
+            "caption": "Button 4"
+        },
+        {
+            "type": "UIButton",
+            "style": "AngledButton",
+            "name": "btn5",
+            "x": 200,
+            "y": 500,
+            "width": 200,
+            "height": 32,
+            "align": "CENTER",
+            "caption": "Button 5"
+        }
+    ]
+}

@@ -1,16 +1,47 @@
 #include "MainMenuState.h"
 #include "states.h"
 
-MainMenuState::MainMenuState() :
-    onut::State<eMainMenuState>(eMainMenuState::IDLE),
-    m_circuitFx({OScreenWf * GOLDEN_SECOND, OScreenCenterYf})
-{
-}
-
 const float INCLINE_RATIO = GOLDEN_SECOND;
 float incline(float base, float pos)
 {
     return base - pos * INCLINE_RATIO;
+}
+
+MainMenuState::MainMenuState() :
+    onut::State<eMainMenuState>(eMainMenuState::IDLE),
+    m_circuitFx({OScreenWf * GOLDEN_SECOND, OScreenCenterYf}),
+    m_uiContext({OScreenWf, OScreenHf}),
+    m_uiScreen("../../assets/ui/main.json")
+{
+    m_uiContext.addStyle("RedButton", [](const onut::UIControl* pControl, const onut::sUIRect& rect)
+    {
+        OSB->drawRect(nullptr, onut::UI2Onut(rect), {1, 0, 0, 1});
+    });
+    m_uiContext.addStyle("AngledButton", [this](const onut::UIControl* pControl, const onut::sUIRect& rect)
+    {
+        auto pButton = dynamic_cast<const onut::UIButton*>(pControl);
+        switch (pControl->getState(m_uiContext))
+        {
+            case onut::eUIState::NORMAL:
+                OSB->drawInclinedRect(nullptr, onut::UI2Onut(rect), -INCLINE_RATIO, {.75f, .75f, .75f, 1});
+                break;
+            case onut::eUIState::HOVER:
+                OSB->drawInclinedRect(nullptr, onut::UI2Onut(rect), -INCLINE_RATIO, {1, 1, 1, 1});
+                break;
+            case onut::eUIState::DOWN:
+                OSB->drawInclinedRect(nullptr, {rect.position.x + 2, rect.position.y + 1, rect.size.x, rect.size.y}, -INCLINE_RATIO, {.5f, .5f, .5f, 1});
+                break;
+            case onut::eUIState::DISABLED:
+                OSB->drawInclinedRect(nullptr, onut::UI2Onut(rect), -INCLINE_RATIO, {.25f, .25f, .25f, 1});
+                break;
+        }
+        OGetBMFont("ethno20.fnt")->draw<ORight>(pButton->getCaption(), onut::UI2Onut(rect).Right(32), Color::Black);
+    });
+
+    m_uiScreen.getChild("btn4")->onClick = [this](const onut::UIControl* pControl, const onut::UIMouseEvent& evt){
+        m_selection = 0;
+        changeState(eMainMenuState::FADE_OUT);
+    };
 }
 
 void MainMenuState::init()
@@ -73,6 +104,7 @@ void MainMenuState::update()
             break;
         }
     }
+    m_uiScreen.update(m_uiContext, {OMousePos.x, OMousePos.y}, OInput->isStateDown(DIK_MOUSEB1));
 }
 
 void MainMenuState::render()
@@ -120,6 +152,8 @@ void MainMenuState::render()
         OSB->drawRect(nullptr, ORectFullScreen, m_fadeAnim.get());
     }
 
+    m_uiScreen.render(m_uiContext);
+    
     OSB->end();
 
     //    onut::drawPal(g_pal, OGetBMFont("ethno16.fnt"));

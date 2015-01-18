@@ -1,8 +1,12 @@
 #include "BuildState.h"
 
 BuildState::BuildState() :
-    onut::State<eBuildState>(eBuildState::IDLE)
+    onut::State<eBuildState>(eBuildState::IDLE)/*,
+    m_uiScreen({OScreenWf, OScreenHf})*/
 {
+    {
+        //auto pBtnSave = new onut::UIButton(&m_uiScreen, 
+    }
 }
 
 BuildState::~BuildState()
@@ -16,6 +20,9 @@ void BuildState::init()
 
 void BuildState::update()
 {
+    // Update UIs
+  //  m_uiScreen.updateScreen({OMousePos.x, OMousePos.y});
+
     // Navigate (Zoom and pan)
     if (OInput->getStateValue(DIK_MOUSEZ) > 0.f)
     {
@@ -55,13 +62,16 @@ void BuildState::render()
     drawGrid();
     ORenderer->set2DCamera(Vector2::Zero);
 
+    // Draw UI
+    OSB->begin();
+ //   m_uiScreen.renderScreen();
+
     // Fade in/out
     if (m_fadeAnim.get().A() > 0.f)
     {
-        OSB->begin();
         OSB->drawRect(nullptr, ORectFullScreen, m_fadeAnim.get());
-        OSB->end();
     }
+    OSB->end();
 
     extern OPal g_pal;
     onut::drawPal(g_pal, OGetBMFont("ethno16.fnt"));

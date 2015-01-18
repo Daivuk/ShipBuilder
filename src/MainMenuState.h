@@ -1,4 +1,5 @@
 #pragma once
+#include "onut.h"
 #include "Button.h"
 #include "CircuitFx.h"
 
@@ -31,4 +32,7 @@ private:
     CircuitFx   m_circuitFx;
     Button      m_buttons[5];
     int         m_selection = 4;
+
+    onut::UIContext m_uiContext;
+    onut::UIControl m_uiScreen;
 };
