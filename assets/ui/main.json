@@ -10,7 +10,6 @@
             "y": 100,
             "width": 200,
             "height": 32,
-            "align": "CENTER",
             "caption": "Button 1",
             "visible": false
         },
@@ -22,7 +21,6 @@
             "y": 200,
             "width": 200,
             "height": 32,
-            "align": "CENTER",
             "caption": "Button 2"
         },
         {
@@ -33,7 +31,6 @@
             "y": 300,
             "width": 200,
             "height": 32,
-            "align": "CENTER",
             "caption": "Button 3",
             "enabled": false
         },
@@ -45,7 +42,6 @@
             "y": 400,
             "width": 200,
             "height": 32,
-            "align": "CENTER",
             "caption": "Button 4"
         },
         {
@@ -56,7 +52,6 @@
             "y": 500,
             "width": 200,
             "height": 32,
-            "align": "CENTER",
             "caption": "Button 5"
         }
     ]
